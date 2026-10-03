@@ -132,6 +132,9 @@ html.contrast .term-tip:not([hidden]) { border-width: 2px; box-shadow: none; }
 .why-short { font-size: .82rem; color: var(--ink); }
 .fee-short { font-size: .78rem; color: var(--ink-2); }
 .match-actions { display: flex; gap: 8px; }
+.match.chosen { border-color: var(--good); box-shadow: 0 0 0 1px var(--good) inset; }
+.chosen-label { font-size: .75rem; font-weight: 700; color: var(--good); text-transform: uppercase; letter-spacing: .04em; }
+.matches .show-all { min-height: 44px; font-size: .85rem; }
 .match-actions button { min-height: 44px; padding: 6px 10px; font-size: .85rem; white-space: nowrap; }
 .match-actions .more { flex: 0 0 auto; }
 .match-actions .choose { flex: 1; }

@@ -140,7 +140,19 @@ test("saved booking still active shows the server's latest details", async ({ pa
   await expect(bookingCard(page)).toContainText("10:30 AM");
   await expect(bookingCard(page)).toContainText("First home and fees");
   expect(calls.find((c) => c.path === "/bookings/get").body).toEqual({ booking_id: saved.booking_id, session_id: saved.session_id });
-  expect(JSON.parse(await storedValue(page)).booking.meeting_time).toBe("10:30");
+  expect(JSON.parse(await storedValue(page)).bookings[0].meeting_time).toBe("10:30");
+});
+
+test("bookings saved in the current format (a list) survive a reload", async ({ page }) => {
+  const saved = booking();
+  await fakeBackend(page, { lookup: saved });
+  await saveInStorage(page, JSON.stringify({ sessionId: saved.session_id, bookings: [saved] }));
+  await open(page);
+  await expect(bookingCard(page)).toHaveCount(1);
+  await expect(bookingCard(page)).toContainText("Sofia Ramirez");
+  await page.reload();
+  await expect(page.locator(".msg.bot").first()).toBeVisible();
+  await expect(bookingCard(page)).toHaveCount(1);
 });
 
 test("server unreachable: keeps showing the saved booking", async ({ page }) => {

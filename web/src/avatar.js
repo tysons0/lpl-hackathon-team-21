@@ -39,12 +39,12 @@ function hairFront(style, color) {
   }
 }
 
-function portraitSvg(name, id) {
+function portraitSvg(name, id, label) {
   const h = hash(id || name || "advisor");
   const bg = pick(BACKGROUNDS, h, 0), skin = pick(SKIN, h, 3), hair = pick(HAIR, h, 7);
   const shirt = pick(SHIRT, h, 11), style = pick(HAIR_STYLES, h, 15), glasses = (h >>> 19) % 4 === 0;
   const clip = `av-${String(id || name).replace(/[^A-Za-z0-9_-]/g, "")}`;
-  return `<svg class="avatar" viewBox="0 0 64 64" role="img" aria-label="Illustrated portrait of ${name}">
+  return `<svg class="avatar" viewBox="0 0 64 64" role="img" aria-label="${label || `Illustrated portrait of ${name}`}">
     <defs><clipPath id="${clip}"><circle cx="32" cy="32" r="32"/></clipPath></defs>
     <g clip-path="url(#${clip})">
       <rect width="64" height="64" fill="${bg}"/>
@@ -61,11 +61,12 @@ function portraitSvg(name, id) {
   </svg>`;
 }
 
-// Returns HTML. `esc` is the caller's HTML-escaping function. Call wirePhotoFallbacks(root) after inserting it.
-export function advisorPicture(a, esc) {
-  const fallback = portraitSvg(esc(a.name || ""), a.advisor_id);
+// Returns HTML. `esc` is the caller's HTML-escaping function. `labels` holds translated
+// { portrait, photo } alt text (English is used when missing). Call wirePhotoFallbacks(root) after inserting it.
+export function advisorPicture(a, esc, labels = {}) {
+  const fallback = portraitSvg(esc(a.name || ""), a.advisor_id, labels.portrait && esc(labels.portrait));
   if (!a.photo_url) return `<span class="avatar-wrap">${fallback}</span>`;
-  return `<span class="avatar-wrap"><img class="avatar" src="${esc(a.photo_url)}" alt="Photo of ${esc(a.name)}" loading="lazy" data-fallback="${esc(fallback)}"></span>`;
+  return `<span class="avatar-wrap"><img class="avatar" src="${esc(a.photo_url)}" alt="${esc(labels.photo || `Photo of ${a.name}`)}" loading="lazy" data-fallback="${esc(fallback)}"></span>`;
 }
 
 // If a photo fails to load, swap in the illustrated portrait.

@@ -1,0 +1,883 @@
+[
+{
+"advisor_id": "adv-901",
+"name": "Sofia Ramirez",
+"city": "Miami, FL",
+"zip": "33130",
+"languages": [
+"English",
+"Spanish"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"young professionals and first-time investors",
+"first-time home buyers"
+],
+"open_slots": 5,
+"fee_model": "Fee-based (annual % of assets)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Bilingual (English/Spanish). Specializes in first-time investors and saving for a first home. Patient, jargon-free, offers evening virtual meetings."
+},
+{
+"advisor_id": "adv-902",
+"name": "Jordan Ellis",
+"city": "Charlotte, NC",
+"zip": "28202",
+"languages": [
+"English"
+],
+"meeting_types": [
+"virtual"
+],
+"focus": [
+"student loan payoff and early retirement saving",
+"young professionals and first-time investors"
+],
+"open_slots": 4,
+"fee_model": "Fee-only (flat planning fee)",
+"platform": "Model portfolios (MWP)",
+"bio": "Works with recent grads balancing student loans, a first 401(k) and building savings. Education-first and plain-language."
+},
+{
+"advisor_id": "adv-903",
+"name": "Mei Lin",
+"city": "San Diego, CA",
+"zip": "92101",
+"languages": [
+"English",
+"Mandarin"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"young professionals and first-time investors",
+"first-time home buyers"
+],
+"open_slots": 5,
+"fee_model": "Fee-only (flat planning fee)",
+"platform": "Model portfolios (MWP)",
+"bio": "Bilingual (English/Mandarin). Helps first-time investors and families new to the US financial system. Patient and jargon-free."
+},
+{
+"advisor_id": "adv-000",
+"name": "Dana Nguyen",
+"city": "Charlotte, NC",
+"zip": "28202",
+"languages": [
+"English",
+"Mandarin"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"inheritance and estate transitions",
+"young professionals and first-time investors"
+],
+"open_slots": 0,
+"fee_model": "Fee-only (flat planning fee)",
+"platform": "Model portfolios (MWP)",
+"bio": "Works mostly with inheritance and estate transitions and young professionals and first-time investors. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-001",
+"name": "Lena Silva",
+"city": "Boston, MA",
+"zip": "02110",
+"languages": [
+"English"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"young professionals and first-time investors",
+"first-time home buyers"
+],
+"open_slots": 3,
+"fee_model": "Fee-only (flat planning fee)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with young professionals and first-time investors and first-time home buyers. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-002",
+"name": "Luis Bell",
+"city": "Miami, FL",
+"zip": "33130",
+"languages": [
+"English"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"first-time home buyers",
+"new parents and college savings"
+],
+"open_slots": 4,
+"fee_model": "Fee-based (annual % of assets)",
+"platform": "Model portfolios (MWP)",
+"bio": "Works mostly with first-time home buyers and new parents and college savings. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-003",
+"name": "Aisha Chen",
+"city": "Fort Mill, SC",
+"zip": "29715",
+"languages": [
+"English"
+],
+"meeting_types": [
+"virtual"
+],
+"focus": [
+"new parents and college savings",
+"young professionals and first-time investors"
+],
+"open_slots": 4,
+"fee_model": "Commission and fee (hybrid)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with new parents and college savings and young professionals and first-time investors. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-004",
+"name": "James Bell",
+"city": "Miami, FL",
+"zip": "33130",
+"languages": [
+"English",
+"Spanish"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"small business owners",
+"military families"
+],
+"open_slots": 1,
+"fee_model": "Fee-based (annual % of assets)",
+"platform": "Model portfolios (MWP)",
+"bio": "Works mostly with small business owners and military families. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-005",
+"name": "Tomas Brooks",
+"city": "Fort Mill, SC",
+"zip": "29715",
+"languages": [
+"English",
+"Spanish"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"military families",
+"first-time home buyers"
+],
+"open_slots": 4,
+"fee_model": "Fee-only (flat planning fee)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with military families and first-time home buyers. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-006",
+"name": "Ben Moreno",
+"city": "Austin, TX",
+"zip": "78701",
+"languages": [
+"English",
+"Spanish"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"tech employees with equity compensation",
+"teachers and public-sector pensions"
+],
+"open_slots": 6,
+"fee_model": "Fee-based (annual % of assets)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with tech employees with equity compensation and teachers and public-sector pensions. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-007",
+"name": "Omar Patel",
+"city": "Fort Mill, SC",
+"zip": "29715",
+"languages": [
+"English"
+],
+"meeting_types": [
+"in-person"
+],
+"focus": [
+"teachers and public-sector pensions",
+"small business owners"
+],
+"open_slots": 2,
+"fee_model": "Commission and fee (hybrid)",
+"platform": "Model portfolios (MWP)",
+"bio": "Works mostly with teachers and public-sector pensions and small business owners. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-008",
+"name": "Isaac Patel",
+"city": "Boston, MA",
+"zip": "02110",
+"languages": [
+"English",
+"Spanish"
+],
+"meeting_types": [
+"in-person"
+],
+"focus": [
+"first-time home buyers",
+"military families"
+],
+"open_slots": 3,
+"fee_model": "Fee-only (flat planning fee)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with first-time home buyers and military families. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-009",
+"name": "Luis Patel",
+"city": "Austin, TX",
+"zip": "78701",
+"languages": [
+"English"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"military families",
+"pre-retirees and retirement income"
+],
+"open_slots": 6,
+"fee_model": "Commission and fee (hybrid)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with military families and pre-retirees and retirement income. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-010",
+"name": "Carmen Patel",
+"city": "Boston, MA",
+"zip": "02110",
+"languages": [
+"English",
+"Mandarin"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"first-time home buyers",
+"small business owners"
+],
+"open_slots": 5,
+"fee_model": "Commission and fee (hybrid)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with first-time home buyers and small business owners. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-011",
+"name": "Marcus Bell",
+"city": "Miami, FL",
+"zip": "33130",
+"languages": [
+"English"
+],
+"meeting_types": [
+"virtual"
+],
+"focus": [
+"tech employees with equity compensation",
+"small business owners"
+],
+"open_slots": 3,
+"fee_model": "Fee-based (annual % of assets)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with tech employees with equity compensation and small business owners. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-012",
+"name": "Tomas Okafor",
+"city": "Boston, MA",
+"zip": "02110",
+"languages": [
+"English",
+"Spanish"
+],
+"meeting_types": [
+"virtual"
+],
+"focus": [
+"teachers and public-sector pensions",
+"first-time home buyers"
+],
+"open_slots": 5,
+"fee_model": "Fee-based (annual % of assets)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with teachers and public-sector pensions and first-time home buyers. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-013",
+"name": "Omar Reyes",
+"city": "Charlotte, NC",
+"zip": "28202",
+"languages": [
+"English",
+"Spanish"
+],
+"meeting_types": [
+"in-person"
+],
+"focus": [
+"inheritance and estate transitions",
+"tech employees with equity compensation"
+],
+"open_slots": 1,
+"fee_model": "Commission and fee (hybrid)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with inheritance and estate transitions and tech employees with equity compensation. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-014",
+"name": "Ben Ortiz",
+"city": "Austin, TX",
+"zip": "78701",
+"languages": [
+"English"
+],
+"meeting_types": [
+"virtual"
+],
+"focus": [
+"small business owners",
+"inheritance and estate transitions"
+],
+"open_slots": 1,
+"fee_model": "Fee-only (flat planning fee)",
+"platform": "Model portfolios (MWP)",
+"bio": "Works mostly with small business owners and inheritance and estate transitions. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-015",
+"name": "Priya Okafor",
+"city": "Miami, FL",
+"zip": "33130",
+"languages": [
+"English",
+"Spanish"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"student loan payoff and early retirement saving",
+"new parents and college savings"
+],
+"open_slots": 1,
+"fee_model": "Fee-only (flat planning fee)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with student loan payoff and early retirement saving and new parents and college savings. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-016",
+"name": "Elena Diaz",
+"city": "Boston, MA",
+"zip": "02110",
+"languages": [
+"English"
+],
+"meeting_types": [
+"in-person"
+],
+"focus": [
+"young professionals and first-time investors",
+"student loan payoff and early retirement saving"
+],
+"open_slots": 1,
+"fee_model": "Commission and fee (hybrid)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with young professionals and first-time investors and student loan payoff and early retirement saving. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-017",
+"name": "Lena Shah",
+"city": "Miami, FL",
+"zip": "33130",
+"languages": [
+"English"
+],
+"meeting_types": [
+"in-person"
+],
+"focus": [
+"young professionals and first-time investors",
+"tech employees with equity compensation"
+],
+"open_slots": 3,
+"fee_model": "Commission and fee (hybrid)",
+"platform": "Model portfolios (MWP)",
+"bio": "Works mostly with young professionals and first-time investors and tech employees with equity compensation. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-018",
+"name": "James Castillo",
+"city": "San Diego, CA",
+"zip": "92101",
+"languages": [
+"English",
+"Spanish"
+],
+"meeting_types": [
+"virtual"
+],
+"focus": [
+"inheritance and estate transitions",
+"young professionals and first-time investors"
+],
+"open_slots": 0,
+"fee_model": "Fee-only (flat planning fee)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with inheritance and estate transitions and young professionals and first-time investors. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-019",
+"name": "Dana Shah",
+"city": "Charlotte, NC",
+"zip": "28202",
+"languages": [
+"English"
+],
+"meeting_types": [
+"in-person"
+],
+"focus": [
+"young professionals and first-time investors",
+"first-time home buyers"
+],
+"open_slots": 4,
+"fee_model": "Commission and fee (hybrid)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with young professionals and first-time investors and first-time home buyers. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-020",
+"name": "Maya Patel",
+"city": "San Diego, CA",
+"zip": "92101",
+"languages": [
+"English"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"new parents and college savings",
+"inheritance and estate transitions"
+],
+"open_slots": 2,
+"fee_model": "Fee-only (flat planning fee)",
+"platform": "Model portfolios (MWP)",
+"bio": "Works mostly with new parents and college savings and inheritance and estate transitions. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-021",
+"name": "Derek Brooks",
+"city": "Boston, MA",
+"zip": "02110",
+"languages": [
+"English"
+],
+"meeting_types": [
+"virtual"
+],
+"focus": [
+"first-time home buyers",
+"tech employees with equity compensation"
+],
+"open_slots": 0,
+"fee_model": "Fee-only (flat planning fee)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with first-time home buyers and tech employees with equity compensation. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-022",
+"name": "Dana Hughes",
+"city": "Fort Mill, SC",
+"zip": "29715",
+"languages": [
+"English",
+"Spanish"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"tech employees with equity compensation",
+"student loan payoff and early retirement saving"
+],
+"open_slots": 2,
+"fee_model": "Commission and fee (hybrid)",
+"platform": "Model portfolios (MWP)",
+"bio": "Works mostly with tech employees with equity compensation and student loan payoff and early retirement saving. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-023",
+"name": "Ana Ortiz",
+"city": "Austin, TX",
+"zip": "78701",
+"languages": [
+"English"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"young professionals and first-time investors",
+"military families"
+],
+"open_slots": 6,
+"fee_model": "Fee-only (flat planning fee)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with young professionals and first-time investors and military families. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-024",
+"name": "Elena Grant",
+"city": "Austin, TX",
+"zip": "78701",
+"languages": [
+"English"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"pre-retirees and retirement income",
+"student loan payoff and early retirement saving"
+],
+"open_slots": 2,
+"fee_model": "Commission and fee (hybrid)",
+"platform": "Model portfolios (MWP)",
+"bio": "Works mostly with pre-retirees and retirement income and student loan payoff and early retirement saving. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-025",
+"name": "Omar Shah",
+"city": "Boston, MA",
+"zip": "02110",
+"languages": [
+"English"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"new parents and college savings",
+"teachers and public-sector pensions"
+],
+"open_slots": 3,
+"fee_model": "Fee-based (annual % of assets)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with new parents and college savings and teachers and public-sector pensions. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-026",
+"name": "Tomas Rivera",
+"city": "Boston, MA",
+"zip": "02110",
+"languages": [
+"English",
+"Spanish"
+],
+"meeting_types": [
+"in-person"
+],
+"focus": [
+"young professionals and first-time investors",
+"small business owners"
+],
+"open_slots": 3,
+"fee_model": "Commission and fee (hybrid)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with young professionals and first-time investors and small business owners. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-027",
+"name": "Tomas Walsh",
+"city": "Charlotte, NC",
+"zip": "28202",
+"languages": [
+"English",
+"Spanish"
+],
+"meeting_types": [
+"virtual"
+],
+"focus": [
+"first-time home buyers",
+"new parents and college savings"
+],
+"open_slots": 3,
+"fee_model": "Fee-only (flat planning fee)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with first-time home buyers and new parents and college savings. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-028",
+"name": "Isaac Shah",
+"city": "Miami, FL",
+"zip": "33130",
+"languages": [
+"English",
+"Spanish"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"young professionals and first-time investors",
+"tech employees with equity compensation"
+],
+"open_slots": 0,
+"fee_model": "Fee-only (flat planning fee)",
+"platform": "Model portfolios (MWP)",
+"bio": "Works mostly with young professionals and first-time investors and tech employees with equity compensation. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-029",
+"name": "Aisha Silva",
+"city": "Boston, MA",
+"zip": "02110",
+"languages": [
+"English"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"tech employees with equity compensation",
+"student loan payoff and early retirement saving"
+],
+"open_slots": 3,
+"fee_model": "Fee-based (annual % of assets)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with tech employees with equity compensation and student loan payoff and early retirement saving. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-030",
+"name": "Carmen Reyes",
+"city": "San Diego, CA",
+"zip": "92101",
+"languages": [
+"English",
+"Mandarin"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"first-time home buyers",
+"student loan payoff and early retirement saving"
+],
+"open_slots": 3,
+"fee_model": "Commission and fee (hybrid)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with first-time home buyers and student loan payoff and early retirement saving. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-031",
+"name": "Ana Shah",
+"city": "Miami, FL",
+"zip": "33130",
+"languages": [
+"English"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"teachers and public-sector pensions",
+"tech employees with equity compensation"
+],
+"open_slots": 1,
+"fee_model": "Fee-based (annual % of assets)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with teachers and public-sector pensions and tech employees with equity compensation. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-032",
+"name": "Maya Rivera",
+"city": "Miami, FL",
+"zip": "33130",
+"languages": [
+"English"
+],
+"meeting_types": [
+"virtual"
+],
+"focus": [
+"first-time home buyers",
+"military families"
+],
+"open_slots": 6,
+"fee_model": "Fee-based (annual % of assets)",
+"platform": "Model portfolios (MWP)",
+"bio": "Works mostly with first-time home buyers and military families. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-033",
+"name": "Grace Rivera",
+"city": "Austin, TX",
+"zip": "78701",
+"languages": [
+"English"
+],
+"meeting_types": [
+"in-person"
+],
+"focus": [
+"small business owners",
+"new parents and college savings"
+],
+"open_slots": 2,
+"fee_model": "Fee-only (flat planning fee)",
+"platform": "Model portfolios (MWP)",
+"bio": "Works mostly with small business owners and new parents and college savings. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-034",
+"name": "Victor Foster",
+"city": "Miami, FL",
+"zip": "33130",
+"languages": [
+"English"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"student loan payoff and early retirement saving",
+"young professionals and first-time investors"
+],
+"open_slots": 6,
+"fee_model": "Fee-only (flat planning fee)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with student loan payoff and early retirement saving and young professionals and first-time investors. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-035",
+"name": "Lena Foster",
+"city": "Fort Mill, SC",
+"zip": "29715",
+"languages": [
+"English",
+"Spanish"
+],
+"meeting_types": [
+"in-person"
+],
+"focus": [
+"military families",
+"student loan payoff and early retirement saving"
+],
+"open_slots": 6,
+"fee_model": "Commission and fee (hybrid)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with military families and student loan payoff and early retirement saving. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-036",
+"name": "Kevin Shah",
+"city": "San Diego, CA",
+"zip": "92101",
+"languages": [
+"English",
+"Spanish"
+],
+"meeting_types": [
+"virtual"
+],
+"focus": [
+"young professionals and first-time investors",
+"student loan payoff and early retirement saving"
+],
+"open_slots": 4,
+"fee_model": "Commission and fee (hybrid)",
+"platform": "Model portfolios (MWP)",
+"bio": "Works mostly with young professionals and first-time investors and student loan payoff and early retirement saving. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-037",
+"name": "Luis Moreno",
+"city": "Fort Mill, SC",
+"zip": "29715",
+"languages": [
+"English"
+],
+"meeting_types": [
+"virtual",
+"in-person"
+],
+"focus": [
+"military families",
+"teachers and public-sector pensions"
+],
+"open_slots": 0,
+"fee_model": "Fee-only (flat planning fee)",
+"platform": "Advisor-managed (SAM)",
+"bio": "Works mostly with military families and teachers and public-sector pensions. Plain-language, patient, education-first."
+},
+{
+"advisor_id": "adv-038",
+"name": "Omar Silva",
+"city": "Charlotte, NC",
+"zip": "28202",
+"languages": [
+"English"
+],
+"meeting_types": [
+"virtual"
+],
+"focus": [
+"small business owners",
+"young professionals and first-time investors"
+],
+"open_slots": 3,
+"fee_model": "Fee-only (flat planning fee)",
+"platform": "Model portfolios (MWP)",
+"bio": "Works mostly with small business owners and young professionals and first-time investors. Plain-language, patient, education-first."
+}
+]

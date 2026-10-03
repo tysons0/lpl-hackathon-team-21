@@ -21,6 +21,8 @@ Optional: `ALERT_EMAIL=you@example.com bash deploy.sh` turns on alarm emails and
 - Demo advisors: seed/seed.py (all fictional)
 - Advisor pictures: illustrated portraits drawn in web/src/avatar.js (look picked from advisor_id). To use licensed headshots, add
   web/public/advisors/<advisor_id>.jpg, rebuild the web app, then `RESEED=1 bash deploy.sh`
+- Backend tests: `pip install pydantic pytest boto3 strands-agents && cd backend && python -m pytest -q tests`
+  (tests/test_booking_listed_advisors.py books every advisor in seed/seed.py through the form and the chat)
 - Web app browser tests: `cd web && npm install && npx playwright install chromium && npm test`
   (the backend is faked in each test, so no AWS account is needed)
 - Web app: web/src (Vite). After edits: cd web && npm install && npm run build, then bash deploy.sh

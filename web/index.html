@@ -10,7 +10,7 @@
     <title>Advisor Match</title>
   </head>
   <body>
-    <a class="skip" href="#main">Skip to main content</a>
+    <a class="skip" href="#main" data-i18n="skipLink">Skip to main content</a>
     <header class="topbar">
       <div class="brand">
         <span class="logo" aria-hidden="true">AM</span>
@@ -19,7 +19,7 @@
           <div class="brand-sub" data-i18n="tagline">Find your advisor. Walk in ready.</div>
         </div>
       </div>
-      <nav class="tabs" role="tablist" aria-label="Views">
+      <nav class="tabs" role="tablist" aria-label="Views" data-i18n-aria="ariaViews">
         <button role="tab" id="tab-investor" aria-controls="view-investor" aria-selected="true" data-view="investor" data-i18n="tabInvestor">Investor</button>
         <button role="tab" id="tab-directory" aria-controls="view-directory" aria-selected="false" data-view="directory" tabindex="-1" data-i18n="tabDirectory">All advisors</button>
         <button role="tab" id="tab-advisor" aria-controls="view-advisor" aria-selected="false" data-view="advisor" tabindex="-1" data-i18n="tabAdvisor">Advisor</button>
@@ -27,22 +27,22 @@
       </nav>
     </header>
 
-    <button type="button" id="settings-toggle" class="settings-toggle" aria-expanded="false" aria-controls="settings-panel" aria-label="Open settings" title="Settings">⚙</button>
-    <div id="settings-panel" class="prefs" role="group" aria-label="Display and accessibility options">
+    <button type="button" id="settings-toggle" class="settings-toggle" aria-expanded="false" aria-controls="settings-panel" aria-label="Open settings" title="Settings" data-i18n-aria="settingsOpen" data-i18n-title="settings">⚙</button>
+    <div id="settings-panel" class="prefs" role="group" aria-label="Display and accessibility options" data-i18n-aria="ariaPrefs">
       <div class="language-picker">
         <span class="pref-label" data-i18n="languageLabel">Language</span>
-        <div class="language-options" role="group" aria-label="Choose language">
+        <div class="language-options" role="group" aria-label="Choose language" data-i18n-aria="ariaChooseLang">
           <button type="button" class="language-option active" data-lang="en" aria-pressed="true">English</button>
           <button type="button" class="language-option" data-lang="es" lang="es" aria-pressed="false">Español</button>
           <button type="button" class="language-option" data-lang="zh" lang="zh" aria-pressed="false">中文</button>
         </div>
       </div>
-      <div class="text-size-control" role="group" aria-label="Text size">
+      <div class="text-size-control" role="group" aria-label="Text size" data-i18n-aria="textSize">
         <span class="pref-label" data-i18n="textSize">Text size</span>
         <button type="button" class="size-option active" data-size="100" aria-pressed="true">A</button>
         <button type="button" class="size-option" data-size="112" aria-pressed="false">A+</button>
         <button type="button" class="size-option" data-size="125" aria-pressed="false">A++</button>
-        <input type="range" id="mobile-text-size" class="mobile-text-size" min="100" max="125" step="1" value="100" aria-label="Text size" />
+        <input type="range" id="mobile-text-size" class="mobile-text-size" min="100" max="125" step="1" value="100" aria-label="Text size" data-i18n-aria="textSize" />
       </div>
       <label class="toggle"><input type="checkbox" id="pref-contrast" /> <span data-i18n="prefContrast">High contrast</span></label>
       <label class="toggle"><input type="checkbox" id="pref-autoread" /> <span data-i18n="prefRead">Read replies aloud</span></label>
@@ -65,11 +65,11 @@
           <div class="chat-card">
             <div class="chat-heading"><h1 class="h1" data-i18n="investorTitle">Let's find the right advisor for you</h1><button type="button" id="chat-collapse" class="chat-collapse" aria-expanded="true">Hide chat</button></div>
             <p class="lead" data-i18n="investorLead">Answer a few quick questions by typing or speaking. It takes about 3 minutes, and there are no wrong answers.</p>
-            <div id="chat" class="chat" role="log" aria-live="polite" aria-relevant="additions" aria-label="Conversation"></div>
+            <div id="chat" class="chat" role="log" aria-live="polite" aria-relevant="additions" aria-label="Conversation" data-i18n-aria="ariaConversation"></div>
             <div class="chips" id="starters">
               <button class="chip" data-i18n="starter1">I'm new to investing and want help getting started</button>
               <button class="chip" data-i18n="starter2">I want to buy a house in 5 years but I have student loans</button>
-              <button class="chip" lang="es">Hola, quiero ahorrar para mi primera casa</button>
+              <button class="chip" data-i18n="starter3">Hola, quiero ahorrar para mi primera casa</button>
             </div>
             <form id="composer" class="composer" autocomplete="off">
               <label for="msg" class="sr-only" data-i18n="msgLabel">Your message</label>
@@ -81,7 +81,7 @@
             </form>
             <p id="live-hint" class="hint" aria-live="polite"></p>
           </div>
-          <aside class="side" aria-label="Your matches and booking">
+          <aside class="side" aria-label="Your matches and booking" data-i18n-aria="ariaSide">
             <h2 class="h2" data-i18n="matchesTitle">Your matches</h2>
             <p id="matches-announcement" class="sr-only" aria-live="polite"></p>
             <div id="matches" class="matches"><p class="muted" data-i18n="matchesEmpty">Your top 3 advisors will appear here, with the reasons each one fits you.</p></div>
@@ -135,52 +135,52 @@
           </div>
           <button class="secondary" id="refresh-metrics" data-i18n="refresh">Refresh</button>
         </div>
-        <div class="report-toolbar" role="group" aria-label="Report period and export controls">
-          <label for="metrics-range">Reporting period
+        <div class="report-toolbar" role="group" aria-label="Report period and export controls" data-i18n-aria="ariaReportControls">
+          <label for="metrics-range"><span data-i18n="reportingPeriod">Reporting period</span>
             <select id="metrics-range">
-              <option value="month">Month</option>
-              <option value="quarter">Quarter</option>
-              <option value="year">Year</option>
-              <option value="daily">Daily</option>
-              <option value="all">All time</option>
-              <option value="custom">Custom range</option>
+              <option value="month" data-i18n="rangeMonth">Month</option>
+              <option value="quarter" data-i18n="rangeQuarter">Quarter</option>
+              <option value="year" data-i18n="rangeYear">Year</option>
+              <option value="daily" data-i18n="rangeDaily">Daily</option>
+              <option value="all" data-i18n="rangeAll">All time</option>
+              <option value="custom" data-i18n="rangeCustom">Custom range</option>
             </select>
           </label>
-          <label for="metrics-year">Year
+          <label for="metrics-year"><span data-i18n="labelYear">Year</span>
             <select id="metrics-year"></select>
           </label>
-          <label for="metrics-month">Month
+          <label for="metrics-month"><span data-i18n="labelMonth">Month</span>
             <select id="metrics-month">
-              <option value="">All months</option>
+              <option value="" data-i18n="allMonths">All months</option>
               <option value="01">January</option><option value="02">February</option><option value="03">March</option>
               <option value="04">April</option><option value="05">May</option><option value="06">June</option>
               <option value="07">July</option><option value="08">August</option><option value="09">September</option>
               <option value="10">October</option><option value="11">November</option><option value="12">December</option>
             </select>
           </label>
-          <label for="metrics-quarter">Quarter
+          <label for="metrics-quarter"><span data-i18n="labelQuarter">Quarter</span>
             <select id="metrics-quarter"><option value="1">Q1</option><option value="2">Q2</option><option value="3">Q3</option><option value="4">Q4</option></select>
           </label>
           <div id="custom-range" class="custom-range" hidden>
-            <label for="metrics-start">From <input id="metrics-start" type="date" /></label>
-            <label for="metrics-end">To <input id="metrics-end" type="date" /></label>
+            <label for="metrics-start"><span data-i18n="from">From</span> <input id="metrics-start" type="date" /></label>
+            <label for="metrics-end"><span data-i18n="to">To</span> <input id="metrics-end" type="date" /></label>
           </div>
-          <button type="button" class="secondary export-button" id="export-metrics">Download CSV</button>
+          <button type="button" class="secondary export-button" id="export-metrics" data-i18n="downloadCsv">Download CSV</button>
         </div>
-        <div class="dashboard-note"><span class="status-dot"></span><strong id="metrics-day">Today</strong><span>Observed activity from the live prototype</span></div>
+        <div class="dashboard-note"><span class="status-dot"></span><strong id="metrics-day" data-i18n="today">Today</strong><span data-i18n="observedActivity">Observed activity from the live prototype</span></div>
         <div id="impact-kpis" class="impact-kpis" aria-live="polite">
-          <div class="impact-kpi"><span class="kpi-label">Advisor matches delivered</span><strong id="kpi-matched">—</strong><span class="kpi-context">clients reached with a ranked match</span></div>
-          <div class="impact-kpi"><span class="kpi-label">Match-to-meeting rate</span><strong id="kpi-conversion">—</strong><span class="kpi-context">matched prospects who booked</span></div>
-          <div class="impact-kpi"><span class="kpi-label">Advisor briefs sent</span><strong id="kpi-briefed">—</strong><span class="kpi-context">meetings ready for a better first call</span></div>
-          <div class="impact-kpi accent"><span class="kpi-label">Modeled annual fee opportunity</span><strong id="kpi-opportunity">—</strong><span class="kpi-context">illustrative, based on booked meetings</span></div>
+          <div class="impact-kpi"><span class="kpi-label" data-i18n="kpiMatched">Advisor matches delivered</span><strong id="kpi-matched">—</strong><span class="kpi-context" data-i18n="kpiMatchedCtx">clients reached with a ranked match</span></div>
+          <div class="impact-kpi"><span class="kpi-label" data-i18n="kpiConversion">Match-to-meeting rate</span><strong id="kpi-conversion">—</strong><span class="kpi-context" data-i18n="kpiConversionCtx">matched prospects who booked</span></div>
+          <div class="impact-kpi"><span class="kpi-label" data-i18n="kpiBriefed">Advisor briefs sent</span><strong id="kpi-briefed">—</strong><span class="kpi-context" data-i18n="kpiBriefedCtx">meetings ready for a better first call</span></div>
+          <div class="impact-kpi accent"><span class="kpi-label" data-i18n="kpiOpportunity">Modeled annual fee opportunity</span><strong id="kpi-opportunity">—</strong><span class="kpi-context" data-i18n="kpiOpportunityCtx">illustrative, based on booked meetings</span></div>
         </div>
         <div class="dashboard-columns">
           <div>
-            <h2 class="h2 dashboard-section-title">What to do next</h2>
+            <h2 class="h2 dashboard-section-title" data-i18n="whatNext">What to do next</h2>
             <div id="recommendations" class="recommendations" aria-live="polite"></div>
           </div>
           <div>
-            <h2 class="h2 dashboard-section-title">Observed conversion funnel</h2>
+            <h2 class="h2 dashboard-section-title" data-i18n="funnelTitle">Observed conversion funnel</h2>
             <div id="funnel" class="funnel" aria-live="polite"></div>
           </div>
         </div>
@@ -189,21 +189,21 @@
         <p class="muted" data-i18n="roiNote">Move the sliders to model scenarios. Assumptions are inputs, not forecasts.</p>
         <div class="roi">
           <div class="roi-inputs">
-            <label>Advisors using Advisor Match <output id="o-adv"></output><input type="range" id="r-adv" min="100" max="10000" step="100" value="1000" /></label>
-            <label>New clients per advisor per year <output id="o-cli"></output><input type="range" id="r-cli" min="1" max="20" step="1" value="5" /></label>
-            <label>Average new assets per client <output id="o-aum"></output><input type="range" id="r-aum" min="10000" max="250000" step="5000" value="50000" /></label>
-            <label>Annual advisory fee <output id="o-fee"></output><input type="range" id="r-fee" min="0.25" max="1.5" step="0.05" value="1" /></label>
+            <label><span data-i18n="roiAdvisors">Advisors using Advisor Match</span> <output id="o-adv"></output><input type="range" id="r-adv" min="100" max="10000" step="100" value="1000" /></label>
+            <label><span data-i18n="roiClients">New clients per advisor per year</span> <output id="o-cli"></output><input type="range" id="r-cli" min="1" max="20" step="1" value="5" /></label>
+            <label><span data-i18n="roiAum">Average new assets per client</span> <output id="o-aum"></output><input type="range" id="r-aum" min="10000" max="250000" step="5000" value="50000" /></label>
+            <label><span data-i18n="roiFee">Annual advisory fee</span> <output id="o-fee"></output><input type="range" id="r-fee" min="0.25" max="1.5" step="0.05" value="1" /></label>
           </div>
           <div class="roi-out" aria-live="polite">
-            <div class="kpi"><div class="kpi-label">New clients / year</div><div class="kpi-val" id="k-clients">–</div></div>
-            <div class="kpi"><div class="kpi-label">New assets / year</div><div class="kpi-val" id="k-assets">–</div></div>
-            <div class="kpi accent"><div class="kpi-label">New annual fee revenue</div><div class="kpi-val" id="k-rev">–</div></div>
-            <p class="fineprint">Benchmark: Morgan Stanley reported AI-assisted prospect matching doubled successful referrals to over 100,000 in 2024.</p>
+            <div class="kpi"><div class="kpi-label" data-i18n="kClients">New clients / year</div><div class="kpi-val" id="k-clients">–</div></div>
+            <div class="kpi"><div class="kpi-label" data-i18n="kAssets">New assets / year</div><div class="kpi-val" id="k-assets">–</div></div>
+            <div class="kpi accent"><div class="kpi-label" data-i18n="kRev">New annual fee revenue</div><div class="kpi-val" id="k-rev">–</div></div>
+            <p class="fineprint" data-i18n="benchmark">Benchmark: Morgan Stanley reported AI-assisted prospect matching doubled successful referrals to over 100,000 in 2024.</p>
           </div>
         </div>
       </section>
     </main>
-    <footer class="foot">Hackathon prototype · demo advisors are fictional · educational only, not investment advice</footer>
+    <footer class="foot" data-i18n="footer">Hackathon prototype · demo advisors are fictional · educational only, not investment advice</footer>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

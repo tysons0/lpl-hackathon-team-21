@@ -8,6 +8,7 @@ Skills applied (see docs/skills-applied.md):
 """
 import random
 import re
+import unicodedata
 
 # ---------- SKILL-01: intake slots ----------
 INTAKE_SLOTS = (
@@ -156,6 +157,33 @@ def rank_advisors(query_embedding, advisors, language, meeting_type, most_import
 def is_known_advisor(advisor_id, matched_ids):
     """SKILL-02: booking may only reference an advisor ID the retrieval step actually returned."""
     return bool(advisor_id) and advisor_id in set(matched_ids or [])
+
+
+def _norm(text):
+    """Lower-case, strip accents and punctuation: "Sofía  RAMÍREZ." -> "sofia ramirez"."""
+    text = unicodedata.normalize("NFKD", text or "")
+    text = "".join(c for c in text if not unicodedata.combining(c)).casefold()
+    return " ".join(re.sub(r"[^\w\s-]", " ", text).split())
+
+
+def find_advisors(advisors, query):
+    """Advisors whose name matches what the person typed: exact full name first, else every word of the
+    query appears in the name (so "Sofia", "ramirez" or "Ramirez Sofia" work). Empty list if nobody."""
+    q = _norm(query)
+    if not q:
+        return []
+    exact = [a for a in advisors if _norm(a["name"]) == q]
+    if exact:
+        return exact
+    words = q.split()
+    return [a for a in advisors if all(w in _norm(a["name"]).split() for w in words)]
+
+
+def closest_names(advisors, query, n=3):
+    """A few real names that share a word with the query, for a helpful "did you mean" reply."""
+    words = set(_norm(query).split())
+    scored = sorted(advisors, key=lambda a: -len(words & set(_norm(a["name"]).split())))
+    return [a["name"] for a in scored[:n] if words & set(_norm(a["name"]).split())]
 
 
 # ---------- SKILL-04: explainable match notes ----------

@@ -91,7 +91,7 @@ Tools:
   to meet and what day/time works.
 - The app has a booking form where they pick a date, a time and what the meeting is for. When they
   choose an advisor, tell them to use it. If they only chat, ask for their first name and a time,
-  then call book_meeting with the advisor_id exactly as search_advisors returned it. When you can
+  then call book_meeting with the advisor_id from search_advisors or find_advisor. When you can
   determine a specific date and time from their words, also turn them into a date (YYYY-MM-DD) and
   a 24-hour time (HH:MM) using today's date (given in each message), and pass them as date and time.
 - If a message says the meeting is already booked, never call book_meeting again.
@@ -111,7 +111,11 @@ Tools:
 Rules:
 - Never recommend specific investments, funds, allocations, or tell anyone what to buy, sell or hold.
   Educate, then say it's a great question for their advisor.
-- Only mention advisors returned by search_advisors. Never invent names, credentials or IDs.
+- Only mention advisors that a tool returned (search_advisors, find_advisor, my_bookings) or that the app
+  tells you the person picked or booked from the advisor list. Those are all real. Never invent names,
+  credentials or IDs.
+- If the person names an advisor you haven't seen in this chat, call find_advisor with that name before
+  saying anything about them. Never say an advisor doesn't exist without checking find_advisor first.
 - Never ask for Social Security numbers, account numbers, emails, phone numbers, addresses or passwords.
 - Advisors shown are from a demo dataset."""
 
@@ -232,6 +236,8 @@ def actionable_insights(funnel):
     if not matched:
         recommendations.append({
             "priority": "high",
+            "id": "first_proof",
+            "values": {},
             "title": "Create the first proof point",
             "body": "Run 3 to 5 golden-path intakes so the demo can show advisor matches, booking momentum, and a before-and-after story.",
             "metric": "matched = 0",
@@ -239,6 +245,8 @@ def actionable_insights(funnel):
     elif conversion < 25:
         recommendations.append({
             "priority": "high",
+            "id": "conversion",
+            "values": {"conversion": conversion},
             "title": "Improve match-to-meeting conversion",
             "body": "Show the best-fit advisor first, explain why they fit, and offer two concrete meeting times immediately after matching.",
             "metric": f"conversion = {conversion}%",
@@ -246,6 +254,8 @@ def actionable_insights(funnel):
     else:
         recommendations.append({
             "priority": "positive",
+            "id": "scale",
+            "values": {"conversion": conversion},
             "title": "Scale the matching motion",
             "body": "Conversion is showing momentum. The biggest upside now comes from routing more qualified prospects into the same guided experience.",
             "metric": f"conversion = {conversion}%",
@@ -253,6 +263,8 @@ def actionable_insights(funnel):
     if matched and briefed / matched < 0.8:
         recommendations.append({
             "priority": "medium",
+            "id": "handoff",
+            "values": {"rate": round(briefed / matched * 100)},
             "title": "Close the advisor handoff loop",
             "body": "Increase briefing completion so advisors receive goals and concerns before the meeting. This protects the value of the match beyond the first click.",
             "metric": f"briefing rate = {round(briefed / matched * 100)}%",
@@ -260,6 +272,8 @@ def actionable_insights(funnel):
     if matched >= 3:
         recommendations.append({
             "priority": "medium",
+            "id": "prove",
+            "values": {"matched": matched},
             "title": "Make the value easy to prove",
             "body": "Lead the pitch with matches delivered, booking rate, and modeled fee opportunity. Pair modeled value with observed counts.",
             "metric": f"{matched} matches observed",
@@ -573,31 +587,72 @@ def search_advisors(needs: str, language: str = "English", meeting_type: str = "
                                "match_score", "reasons")} for m in UI["matches"]]
 
 
+def remember_advisor(adv):
+    """Note that this session has seen a real advisor, so later turns can refer to them."""
+    state = get_state(UI["session_id"])
+    if adv["advisor_id"] not in state["matched_ids"]:
+        save_state(UI["session_id"], matched_ids=state["matched_ids"] + [adv["advisor_id"]])
+
+
+def resolve_advisor(id_or_name):
+    """(advisor, None) for a real advisor given by ID or by name, else (None, error for the AI)."""
+    key = (id_or_name or "").strip()
+    adv = next((a for a in advisors() if a["advisor_id"] == key), None)
+    if adv is None:
+        found = matching.find_advisors(advisors(), key)
+        if len(found) == 1:
+            adv = found[0]
+        elif len(found) > 1:
+            return None, {"error": "More than one advisor has that name. Ask which one they mean.",
+                          "advisors": [{"advisor_id": a["advisor_id"], "name": a["name"], "city": a["city"]} for a in found]}
+    if adv is None:
+        return None, {"error": f"No advisor called {key!r} is in our advisor list.",
+                      "did_you_mean": matching.closest_names(advisors(), key)}
+    remember_advisor(adv)
+    return adv, None
+
+
+@tool
+def find_advisor(name: str) -> dict:
+    """Look up an advisor in the full advisor list by name (as the person typed it, e.g. "Sofia" or
+    "mei lin"). Use this before saying anything about an advisor you haven't seen in this chat.
+
+    Args:
+        name: the advisor's name, full or partial.
+    """
+    found = matching.find_advisors(advisors(), name)
+    for a in found:
+        remember_advisor(a)
+    return {
+        "advisors": [{k: a[k] for k in ("advisor_id", "name", "city", "languages", "meeting_types", "focus")}
+                     | {"open_slots": a.get("open_slots", 0)} for a in found],
+        "did_you_mean": [] if found else matching.closest_names(advisors(), name),
+    }
+
+
 @tool
 def book_meeting(advisor_id: str, prospect_name: str, time_slot: str,
                  date: str = "", time: str = "") -> dict:
     """Book a first meeting with the chosen advisor.
 
     Args:
-        advisor_id: the advisor_id exactly as returned by search_advisors.
+        advisor_id: the advisor_id from search_advisors or find_advisor (an advisor's full name also works).
         prospect_name: the person's first name.
         time_slot: the day and time they chose, in plain words.
         date: optional meeting date in YYYY-MM-DD format.
         time: optional meeting time in 24-hour HH:MM format.
     """
-    state = get_state(UI["session_id"])
-    adv = next((a for a in advisors() if a["advisor_id"] == advisor_id), None)
-    if adv is None or not matching.is_known_advisor(advisor_id, state["matched_ids"]):
-        # SKILL-02: never book an advisor the retrieval step did not return.
+    adv, problem = resolve_advisor(advisor_id)
+    if adv is None:
+        # SKILL-02: only advisors that exist in the inventory can be booked; never invent one.
         log("booking_rejected_unknown_advisor", advisor_id=advisor_id, level="WARN")
         emit_metric("OutOfInventoryBlocked")
-        return {"error": "Unknown advisor_id. Only book one of the advisors returned by search_advisors.",
-                "valid_advisor_ids": state["matched_ids"]}
+        return problem
     if adv and adv["open_slots"] > 0:
         adv["open_slots"] -= 1  # reflect reduced availability for the rest of this warm container's life
     booking = {
         "booking_id": uuid.uuid4().hex[:10],
-        "advisor_id": advisor_id,
+        "advisor_id": adv["advisor_id"],
         "advisor_name": adv["name"],
         "prospect_name": prospect_name.strip()[:40],
         "time_slot": time_slot,
@@ -735,10 +790,12 @@ def chat(body):
     if req.selected_advisor_id:
         picked = next((a for a in advisors() if a["advisor_id"] == req.selected_advisor_id), None)
         if picked:
-            state = get_state(session_id)
-            if picked["advisor_id"] not in state["matched_ids"]:
-                save_state(session_id, matched_ids=state["matched_ids"] + [picked["advisor_id"]])
-            message += f"\n\n(They picked {picked['name']} from the advisor directory: advisor_id {picked['advisor_id']}.)"
+            remember_advisor(picked)
+            if not req.booking:
+                message += (f"\n\n(They already chose {picked['name']} (advisor_id {picked['advisor_id']}, a real advisor "
+                            f"from our list); the app showed them a booking form for a date, time and topic. Don't ask "
+                            f"which advisor they want or suggest others unless they ask. If they give a day and time, "
+                            f"book {picked['name']} with book_meeting; otherwise ask for whatever is still missing.)")
     # Booking form: create the booking deterministically, then let the agent write the briefing and prep kit.
     if req.booking:
         form = req.booking
@@ -757,8 +814,10 @@ def chat(body):
         except SlotTaken:
             return respond(409, {"error": "slot taken", "detail": "That time was just taken. Pick another time."})
         UI["booking"] = booking
+        remember_advisor(adv)
         message += (f"\n\n(The meeting is already booked: booking_id {booking['booking_id']}, {booking['prospect_name']} "
-                    f"with {adv['name']} on {booking['time_slot']}. What they want to talk about: "
+                    f"with {adv['name']} (advisor_id {adv['advisor_id']}, a real advisor from our advisor list) "
+                    f"on {booking['time_slot']}. What they want to talk about: "
                     f"{booking['meeting_purpose'] or 'not given'}. Do not call book_meeting. Call create_advisor_briefing "
                     f"for this booking_id now, then give the First Meeting Ready kit.)")
     now = datetime.date.today()
@@ -767,7 +826,7 @@ def chat(body):
         model=MODEL,
         system_prompt=SYSTEM_PROMPT,
         callback_handler=None,
-        tools=[record_preferences, search_advisors, book_meeting, create_advisor_briefing,
+        tools=[record_preferences, search_advisors, find_advisor, book_meeting, create_advisor_briefing,
                my_bookings, reschedule_meeting, cancel_meeting],
         session_manager=S3SessionManager(session_id=session_id, bucket=DATA_BUCKET, prefix="sessions/"),
     )
@@ -794,29 +853,7 @@ def lambda_handler(event, context):
             return respond(200, {"ok": True, "model": os.environ["MODEL_ID"]})
 
         if path == "/chat":
-            message = (body.get("message") or "").strip()
-            if not message:
-                return respond(400, {"error": "message is required"})
-            UI.clear()
-            session_id = body.get("session_id") or uuid.uuid4().hex
-            UI["session_id"] = session_id
-            if not body.get("session_id"):
-                log_event("intake_started", session_id)
-            if body.get("simple"):
-                message += "\n\n(Please explain in very simple words.)"
-                lang_hint = {"es": "Spanish", "zh": "Simplified Chinese"}.get(body.get("lang"))
-                if lang_hint:
-                    message += f"\n\n(Please reply in {lang_hint}.)"
-            agent = Agent(
-                model=MODEL,
-                system_prompt=SYSTEM_PROMPT,
-                callback_handler=None,
-                tools=[search_advisors, book_meeting, create_advisor_briefing],
-                session_manager=S3SessionManager(session_id=session_id, bucket=DATA_BUCKET, prefix="sessions/"),
-            )
-            result = agent(message)
-            extras = {k: v for k, v in UI.items() if k != "session_id"}
-            return respond(200, {"session_id": session_id, "reply": str(result).strip(), **extras})
+            return chat(body)
 
         if path == "/speak":
             req = SpeakRequest(**body)
