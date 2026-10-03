@@ -22,7 +22,7 @@ html.contrast {
 html { font-size: var(--base); }
 body {
   margin: 0; background: var(--bg); color: var(--ink);
-  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif; line-height: 1.55;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif; line-height: 1.55;
   min-width: 320px;
 }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
@@ -418,4 +418,55 @@ html.contrast .how-it-works li::before { background: #ffd400; color: #000; }
   .how-it-works { padding: 18px; }
   .msg { max-width: 94%; }
   .report-toolbar { padding: 12px; }
+}
+
+/* Settings are tucked away until the user asks for them, at every viewport size. */
+.settings-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,.26);
+  border-radius: 12px;
+  background: rgba(255,255,255,.1);
+  color: #fff;
+  font: inherit;
+  font-size: .85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.settings-toggle:hover { background: rgba(255,255,255,.18); }
+.settings-gear { font-size: 1rem; }
+.settings-chevron { display: inline-block; transition: transform .18s ease; }
+.settings-toggle[aria-expanded="true"] .settings-chevron { transform: rotate(180deg); }
+.prefs {
+  display: flex;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 24px;
+  border-bottom-color: transparent;
+  opacity: 0;
+  visibility: hidden;
+  transition: max-height .22s ease, padding .22s ease, opacity .16s ease, visibility .16s;
+}
+.prefs.open {
+  max-height: 220px;
+  padding: 10px 24px;
+  border-bottom-color: var(--line);
+  opacity: 1;
+  visibility: visible;
+}
+.tabs { margin-inline: auto; }
+@media (max-width: 760px) {
+  .topbar { justify-content: space-between; }
+  .tabs { margin-inline: auto 0; }
+}
+@media (max-width: 600px) {
+  .topbar { justify-content: flex-start; padding-right: 16px; }
+  .settings-toggle { position: static; z-index: auto; width: auto; height: 40px; margin-left: auto; }
+  .settings-toggle .settings-gear { display: none; }
+  .prefs { position: fixed; z-index: 19; right: 10px; bottom: 64px; left: 10px; display: none; max-height: min(70vh, 440px); overflow-y: auto; align-items: stretch; padding: 16px; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 12px 38px rgba(16, 42, 67, .2); opacity: 1; visibility: visible; }
+  .prefs.open { display: grid; max-height: min(70vh, 440px); padding: 16px; }
 }

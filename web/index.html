@@ -6,7 +6,7 @@
     <meta name="description" content="Advisor Match helps first-time investors find the right advisor and feel ready for the first meeting." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <title>Advisor Match</title>
   </head>
   <body>
@@ -25,9 +25,13 @@
         <button role="tab" id="tab-advisor" aria-controls="view-advisor" aria-selected="false" data-view="advisor" tabindex="-1" data-i18n="tabAdvisor">Advisor</button>
         <button role="tab" id="tab-dashboard" aria-controls="view-dashboard" aria-selected="false" data-view="dashboard" tabindex="-1" data-i18n="tabDashboard">Business dashboard</button>
       </nav>
+      <button type="button" id="settings-toggle" class="settings-toggle" aria-expanded="false" aria-controls="settings-panel" aria-label="Display settings" title="Display settings">
+        <span class="settings-gear" aria-hidden="true">⚙</span>
+        <span>Settings</span>
+        <span class="settings-chevron" aria-hidden="true">⌄</span>
+      </button>
     </header>
 
-    <button type="button" id="settings-toggle" class="settings-toggle" aria-expanded="false" aria-controls="settings-panel" aria-label="Open settings" title="Settings">⚙</button>
     <div id="settings-panel" class="prefs" role="group" aria-label="Display and accessibility options">
       <div class="language-picker">
         <span class="pref-label" data-i18n="languageLabel">Language</span>
