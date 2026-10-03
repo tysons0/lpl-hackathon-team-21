@@ -22,7 +22,7 @@ html.contrast {
 html { font-size: var(--base); }
 body {
   margin: 0; background: var(--bg); color: var(--ink);
-  font-family: "Inter", "Segoe UI", Arial, sans-serif; line-height: 1.55;
+  font-family: "IBM Plex Sans", "Segoe UI", Arial, sans-serif; line-height: 1.55;
   min-width: 320px;
 }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
@@ -321,8 +321,8 @@ main { max-width: 1600px; padding-top: 32px; }
 .tabs button[aria-selected="true"] { background: #fff; color: #174c45; box-shadow: 0 3px 10px rgba(0,0,0,.12); }
 .prefs { padding: 10px 24px; background: rgba(255,255,255,.88); backdrop-filter: blur(12px); }
 .h1, .h2, .brand-name, .impact-kpi strong { font-family: inherit; }
-.h1 { font-size: clamp(1.55rem, 2vw, 1.95rem); line-height: 1.25; letter-spacing: -.025em; font-weight: 700; }
-.h2 { font-size: 1.16rem; letter-spacing: -.015em; font-weight: 700; }
+.h1 { font-size: clamp(1.55rem, 2vw, 1.95rem); line-height: 1.25; letter-spacing: -.02em; font-weight: 600; }
+.h2 { font-size: 1.16rem; letter-spacing: -.01em; font-weight: 600; }
 .lead { max-width: 76ch; line-height: 1.6; }
 .investor-grid { grid-template-columns: minmax(245px, .82fr) minmax(480px, 1.72fr) minmax(270px, .9fr); gap: 20px; }
 .chat-card, .side, .how-it-works, .booking-card, .bk, .roi, .funnel,
