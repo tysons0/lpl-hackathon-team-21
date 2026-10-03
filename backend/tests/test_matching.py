@@ -110,3 +110,7 @@ def test_directory_passes_photo_url_only_when_present():
     with_photo = adv(1, [1, 0], photo_url="/advisors/adv-1.jpg")
     items = matching.directory([with_photo, adv(2, [0, 1])])
     assert items[0]["photo_url"] == "/advisors/adv-1.jpg" and "photo_url" not in items[1]
+
+
+def test_financial_intent_is_an_intake_slot():
+    assert matching.merge_slots({}, {"financial_intent": "401(k) rollover"}) == {"financial_intent": "401(k) rollover"}

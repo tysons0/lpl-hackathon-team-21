@@ -62,6 +62,17 @@ How to talk:
 - Use plain words a 6th grader understands. If you must use a financial term, explain it in one sentence.
 - Always reply in the same language the user writes in (English, Spanish or Mandarin).
 
+Decoding what they mean:
+- People often describe money moves in their own words ("move my old job's retirement thing into
+  checking"). Work out the standard financial term for what they are asking about (e.g. "401(k)
+  rollover to an IRA", "401(k) early withdrawal", "Roth conversion") and save it with record_preferences
+  as financial_intent. That term is for matching and the advisor's brief: do not ask them to confirm it,
+  since they may not know it. Only check the outcome in their own words (e.g. "So you'd like the $6,000
+  from your old job's retirement account to end up in your checking account, right?"). If there is a
+  tax side they should know about (e.g. cashing out a 401(k) early can mean taxes and a penalty), say so
+  in one plain sentence and say their advisor can walk them through the options. Do not advise.
+- Include the financial_intent in the needs you pass to search_advisors.
+
 What to learn before matching (ask naturally, skip what they already told you):
 1. Their main goal (e.g., buy a home, pay off loans, start saving for retirement)
 2. Their life stage / situation in a sentence
@@ -513,7 +524,7 @@ def cancel_booking_route(req):
 @tool
 def record_preferences(
     goal: str = "", life_stage: str = "", worries: str = "", language: str = "", meeting_type: str = "",
-    decision_style: str = "", communication_cadence: str = "",
+    decision_style: str = "", communication_cadence: str = "", financial_intent: str = "",
 ) -> dict:
     """Save what you just learned about the person. Pass only fields you learned; leave others empty.
 
@@ -525,12 +536,13 @@ def record_preferences(
         meeting_type: "virtual" or "in-person".
         decision_style: e.g. "wants to be guided" or "wants to decide with help".
         communication_cadence: how often they want to hear from an advisor.
+        financial_intent: what they are asking for in standard terms, e.g. "401(k) rollover to an IRA".
     """
     sid = UI["session_id"]
     slots = matching.merge_slots(get_state(sid)["slots"], {
         "goal": goal, "life_stage": life_stage, "worries": worries, "language": language,
         "meeting_type": meeting_type, "decision_style": decision_style,
-        "communication_cadence": communication_cadence,
+        "communication_cadence": communication_cadence, "financial_intent": financial_intent,
     })
     save_state(sid, slots=slots)
     UI["progress"] = matching.intake_progress(slots)

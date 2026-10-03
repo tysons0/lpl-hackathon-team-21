@@ -12,6 +12,7 @@ import re
 # ---------- SKILL-01: intake slots ----------
 INTAKE_SLOTS = (
     "goal",                   # main money goal, e.g. buy a home
+    "financial_intent",       # decoded request in standard terms, e.g. 401(k) rollover to an IRA
     "life_stage",             # situation in a sentence
     "worries",                # what makes them nervous
     "language",               # preferred language
