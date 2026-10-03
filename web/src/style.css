@@ -22,7 +22,7 @@ html.contrast {
 html { font-size: var(--base); }
 body {
   margin: 0; background: var(--bg); color: var(--ink);
-  font-family: "DM Sans", sans-serif; line-height: 1.55;
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif; line-height: 1.55;
   min-width: 320px;
 }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
@@ -307,10 +307,10 @@ main { max-width: 1600px; padding-top: 32px; }
 .logo {
   width: 44px; height: 44px; border-radius: 14px;
   background: #e4f2ec; color: #174c45;
-  font-family: "Manrope", sans-serif; font-size: .9rem; letter-spacing: -.04em;
+  font-family: inherit; font-size: .9rem; letter-spacing: -.02em;
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.45);
 }
-.brand-name { font-family: "Manrope", sans-serif; font-weight: 800; font-size: 1.12rem; letter-spacing: -.035em; }
+.brand-name { font-family: inherit; font-weight: 700; font-size: 1.12rem; letter-spacing: -.015em; }
 .brand-sub { color: rgba(255,255,255,.76); font-size: .78rem; }
 .tabs { gap: 6px; }
 .tabs button {
@@ -320,9 +320,9 @@ main { max-width: 1600px; padding-top: 32px; }
 .tabs button:hover:not([aria-selected="true"]) { background: rgba(255,255,255,.1); color: #fff; }
 .tabs button[aria-selected="true"] { background: #fff; color: #174c45; box-shadow: 0 3px 10px rgba(0,0,0,.12); }
 .prefs { padding: 10px 24px; background: rgba(255,255,255,.88); backdrop-filter: blur(12px); }
-.h1, .h2, .brand-name, .impact-kpi strong { font-family: "Manrope", sans-serif; }
-.h1 { font-size: clamp(1.55rem, 2vw, 1.95rem); line-height: 1.2; letter-spacing: -.045em; font-weight: 800; }
-.h2 { font-size: 1.16rem; letter-spacing: -.035em; font-weight: 800; }
+.h1, .h2, .brand-name, .impact-kpi strong { font-family: inherit; }
+.h1 { font-size: clamp(1.55rem, 2vw, 1.95rem); line-height: 1.25; letter-spacing: -.025em; font-weight: 700; }
+.h2 { font-size: 1.16rem; letter-spacing: -.015em; font-weight: 700; }
 .lead { max-width: 76ch; line-height: 1.6; }
 .investor-grid { grid-template-columns: minmax(245px, .82fr) minmax(480px, 1.72fr) minmax(270px, .9fr); gap: 20px; }
 .chat-card, .side, .how-it-works, .booking-card, .bk, .roi, .funnel,
@@ -363,7 +363,7 @@ main { max-width: 1600px; padding-top: 32px; }
 .secondary { font-weight: 600; }
 .match { padding: 13px; border-radius: 14px; background: #fff; transition: border-color .16s ease, box-shadow .16s ease; }
 .match:hover, .dir-card:hover { border-color: #b4d2c8; box-shadow: 0 8px 22px rgba(24,55,49,.08); }
-.match h3, .booking-form h3, .bk h3 { font-family: "Manrope", sans-serif; letter-spacing: -.025em; }
+.match h3, .booking-form h3, .bk h3 { font-family: inherit; letter-spacing: -.01em; }
 .fit { padding: 2px 9px; background: #edf7f2; border-color: #b8ddce; }
 .tag { border-radius: 7px; background: #edf5f1; color: #315d52; padding: 3px 9px; }
 .avatar { box-shadow: 0 0 0 3px #f0f6f3; }
@@ -379,7 +379,7 @@ main { max-width: 1600px; padding-top: 32px; }
 .impact-kpis { gap: 14px; }
 .impact-kpi { min-height: 152px; padding: 20px; background: #fff; }
 .impact-kpi.accent { border-color: #cae3d8; background: linear-gradient(145deg, #eaf5ef, #f8fbf8); }
-.impact-kpi strong { margin: 4px 0; font-size: 2.2rem; letter-spacing: -.055em; font-variant-numeric: tabular-nums; }
+.impact-kpi strong { margin: 4px 0; font-size: 2.2rem; letter-spacing: -.025em; font-variant-numeric: tabular-nums; }
 .kpi-label { color: #60736d; font-size: .78rem; font-weight: 700; letter-spacing: .025em; }
 .kpi-context { font-size: .8rem; }
 .dashboard-columns { gap: 26px; }
@@ -390,7 +390,7 @@ main { max-width: 1600px; padding-top: 32px; }
 .roi { padding: 22px; box-shadow: var(--shadow-soft); }
 .kpi { border-radius: 13px; padding: 13px 16px; background: #fff; }
 .kpi.accent { border-color: #cae3d8; background: #eff7f2; }
-.kpi-val { font-family: "Manrope", sans-serif; letter-spacing: -.035em; }
+.kpi-val { font-family: inherit; letter-spacing: -.015em; font-variant-numeric: tabular-nums; }
 .foot { padding: 22px 16px; }
 html.contrast body { background: #000; }
 html.contrast .topbar { background: #000; }
