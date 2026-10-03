@@ -6,12 +6,14 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test src/local-intake.test.js"
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity": "^3.1146.0",
     "@aws-sdk/client-transcribe-streaming": "^3.700.0",
-    "@aws-sdk/credential-provider-cognito-identity": "^3.972.71"
+    "@aws-sdk/credential-provider-cognito-identity": "^3.972.71",
+    "lucide": "^1.50.0"
   },
   "devDependencies": {
     "vite": "^5.4.0"

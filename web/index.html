@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <title>Advisor Match</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23295043'/%3E%3Cpath d='M7 23 16 8l9 15M11 18h10' stroke='white' stroke-width='2.5' fill='none'/%3E%3C/svg%3E" />
   </head>
   <body>
     <a class="skip" href="#main">Skip to main content</a>
@@ -16,7 +17,7 @@
         <span class="logo" aria-hidden="true">AM</span>
         <div>
           <div class="brand-name">Advisor Match</div>
-          <div class="brand-sub" data-i18n="tagline">Find your advisor. Walk in ready.</div>
+          <div class="brand-sub">WEALTH &amp; WELLBEING</div>
         </div>
       </div>
       <nav class="tabs" role="tablist" aria-label="Views">
@@ -24,10 +25,10 @@
         <button role="tab" id="tab-advisor" aria-controls="view-advisor" aria-selected="false" data-view="advisor" tabindex="-1" data-i18n="tabAdvisor">Advisor</button>
         <button role="tab" id="tab-dashboard" aria-controls="view-dashboard" aria-selected="false" data-view="dashboard" tabindex="-1" data-i18n="tabDashboard">Business dashboard</button>
       </nav>
+      <div class="header-actions"><span class="demo-label">Fictional advisors</span><button type="button" id="settings-toggle" class="icon-btn" aria-expanded="false" aria-controls="settings-panel" aria-label="Accessibility settings" title="Accessibility settings"><i data-lucide="settings-2"></i></button></div>
     </header>
 
-    <button type="button" id="settings-toggle" class="settings-toggle" aria-expanded="false" aria-controls="settings-panel">⚙ <span data-i18n="settings">Settings</span></button>
-    <div id="settings-panel" class="prefs" role="group" aria-label="Display and accessibility options">
+    <div id="settings-panel" class="prefs" role="group" aria-label="Display and accessibility options" hidden>
       <div class="language-picker">
         <span class="pref-label" data-i18n="languageLabel">Language</span>
         <div class="language-options" role="group" aria-label="Choose language">
@@ -49,40 +50,34 @@
     <main id="main">
       <!-- Investor -->
       <section id="view-investor" role="tabpanel" aria-labelledby="tab-investor" class="view">
+        <div class="page-heading"><div><p class="eyebrow">A PERSONAL APPROACH TO YOUR NEXT CHAPTER</p><h1 data-i18n="investorTitle">Find your advisor.</h1><p class="lead" data-i18n="investorLead">Start with what matters to you. Find someone who gets it.</p></div><div class="session-actions"><span id="connection-status" class="connection-status" role="status">Connecting</span><button type="button" id="reset-chat" class="text-button"><i data-lucide="rotate-ccw"></i><span data-i18n="startOver">Start over</span></button></div></div>
+        <ol class="journey" aria-label="Matching progress"><li class="active" id="step-intake"><span>01</span><span data-i18n="journeyGoals">Your priorities</span></li><li id="step-matches"><span>02</span><span data-i18n="journeyMatches">Your matches</span></li><li id="step-meeting"><span>03</span><span data-i18n="journeyMeeting">Your first meeting</span></li></ol>
         <div class="investor-grid">
-          <aside class="how-it-works" aria-labelledby="how-it-works-title">
-            <p class="eyebrow" data-i18n="howEyebrow">Advisor Match</p>
-            <h2 id="how-it-works-title" class="h2" data-i18n="howTitle">How it works</h2>
-            <ol>
-              <li><strong data-i18n="howStep1Title">1. Tell us your goals</strong><span data-i18n="howStep1Body">Chat or speak in your own words: what you're saving for, what worries you, and how you like to meet. There are no wrong answers.</span></li>
-              <li><strong data-i18n="howStep2Title">2. Meet 3 matches</strong><span data-i18n="howStep2Body">See three advisors who fit your goals, language and schedule, with a plain-language reason for each one. Verify any of them on FINRA BrokerCheck.</span></li>
-              <li><strong data-i18n="howStep3Title">3. Walk in ready</strong><span data-i18n="howStep3Body">Book a time and get a personal prep kit: key terms explained simply, questions to ask, and what to bring. Your advisor gets a briefing too, so you start with your goals, not paperwork.</span></li>
-            </ol>
-            <p class="how-footnote" data-i18n="howFootnote">Free to use. We help you prepare, not invest: your advisor gives the advice.</p>
-          </aside>
           <div class="chat-card">
-            <h1 class="h1" data-i18n="investorTitle">Let's find the right advisor for you</h1>
-            <p class="lead" data-i18n="investorLead">Answer a few quick questions by typing or speaking. It takes about 3 minutes, and there are no wrong answers.</p>
+            <div class="chat-heading"><span class="assistant-mark"><i data-lucide="sparkles"></i></span><div><h2 data-i18n="conversationTitle">Let's talk about you</h2><span class="meta" data-i18n="conversationSub">A few questions. A more personal match.</span></div><span class="private-label"><i data-lucide="lock-keyhole"></i><span data-i18n="privateLabel">Private session</span></span></div>
             <div id="chat" class="chat" role="log" aria-live="polite" aria-relevant="additions" aria-label="Conversation"></div>
             <div class="chips" id="starters">
               <button class="chip" data-i18n="starter1">I'm new to investing and want help getting started</button>
               <button class="chip" data-i18n="starter2">I want to buy a house in 5 years but I have student loans</button>
-              <button class="chip" lang="es">Hola, quiero ahorrar para mi primera casa</button>
+              <button class="chip" data-i18n="starter3">I'm thinking about retirement</button>
             </div>
             <form id="composer" class="composer" autocomplete="off">
               <label for="msg" class="sr-only" data-i18n="msgLabel">Your message</label>
-              <textarea id="msg" rows="2" placeholder="Type or tap the mic and speak…" data-i18n-ph="msgPh"></textarea>
+              <textarea id="msg" rows="2" maxlength="2000" placeholder="What's on your mind?" data-i18n-ph="msgPh"></textarea>
               <button type="button" id="mic" class="icon-btn" aria-pressed="false" aria-label="Start speaking">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-2.08A7 7 0 0 0 19 12h-2Z"/></svg>
+                <i data-lucide="mic"></i>
               </button>
-              <button type="submit" id="send" class="primary" data-i18n="send">Send</button>
+              <button type="submit" id="send" class="primary icon-btn" aria-label="Send message" title="Send message"><i data-lucide="arrow-up"></i></button>
             </form>
             <p id="live-hint" class="hint" aria-live="polite"></p>
+            <p class="privacy-note"><i data-lucide="shield-check"></i><span data-i18n="privacyNote">No account numbers, passwords, or contact details needed.</span></p>
           </div>
           <aside class="side" aria-label="Your matches and booking">
-            <h2 class="h2" data-i18n="matchesTitle">Your matches</h2>
-            <div id="matches" class="matches"><p class="muted" data-i18n="matchesEmpty">Your top 3 advisors will appear here, with the reasons each one fits you.</p></div>
+            <div class="side-heading"><div class="match-heading-copy"><h2 class="h2" data-i18n="matchesTitle">Your matches</h2><span id="match-count" class="meta">0 advisors</span></div><div id="match-window-controls" class="match-window-controls" role="group" aria-label="Advisor matches" hidden><button type="button" id="match-previous" class="match-window-button" aria-label="Previous advisor" title="Previous advisor" disabled><i data-lucide="chevron-left"></i></button><span id="match-position" class="match-position" aria-live="polite">0 / 0</span><button type="button" id="match-next" class="match-window-button" aria-label="Next advisor" title="Next advisor" disabled><i data-lucide="chevron-right"></i></button></div></div>
+            <div id="matches" class="matches" role="region" aria-label="Advisor matches" aria-roledescription="carousel" tabindex="0"><div class="match-empty"><img src="https://images.unsplash.com/photo-1758691737246-95bf8f09a997?auto=format&amp;fit=crop&amp;fm=jpg&amp;q=85&amp;w=1100" alt="Two colleagues talking at a desk in a bright office" width="640" height="420" fetchpriority="high" /><div class="empty-copy"><span class="eyebrow" data-i18n="emptyEyebrow">THE RIGHT CONVERSATION CHANGES THINGS</span><h3 data-i18n="emptyTitle">More than a financial fit.</h3><p class="muted" data-i18n="matchesEmpty">Your goals, your language, your way of working. Your advisor matches will appear here.</p><small>Photo: Vitaly Gariev / Unsplash</small></div></div></div>
             <div id="booking"></div>
+            <button id="compare-open" class="secondary" type="button" hidden><i data-lucide="columns-2"></i><span data-i18n="compare">Compare advisors</span></button>
+            <div class="glossary"><h3 data-i18n="glossaryTitle">A little clarity goes a long way</h3><details><summary data-i18n="feeTerm">How are advisors paid?</summary><p data-i18n="feeDefinition">Fee-only advisors charge their clients. Fee-based advisors may also receive commissions. Ask for the total cost in writing.</p></details><details><summary data-i18n="fiduciaryTerm">What is a fiduciary?</summary><p data-i18n="fiduciaryDefinition">Someone required to put your interests first when providing advice. Ask which services that duty covers.</p></details><small>Photo: <a href="https://unsplash.com/photos/two-women-discuss-a-project-at-a-laptop-in-an-office-8S5n7pMb66c" target="_blank" rel="noopener">Unsplash</a></small></div>
           </aside>
         </div>
       </section>
@@ -96,7 +91,7 @@
           </div>
           <button class="secondary" id="refresh-bookings" data-i18n="refresh">Refresh</button>
         </div>
-        <div id="bookings" class="bookings"></div>
+        <form id="admin-form" class="admin-form"><label for="admin-token" data-i18n="adminLabel">Advisor access token</label><div><input type="password" id="admin-token" autocomplete="off" /><button class="primary" type="submit" data-i18n="unlock">Unlock</button></div><p id="admin-status" class="meta" role="status"></p></form><div id="bookings" class="bookings"></div>
       </section>
 
       <!-- Dashboard -->
@@ -123,11 +118,12 @@
             <div class="kpi"><div class="kpi-label">New clients / year</div><div class="kpi-val" id="k-clients">–</div></div>
             <div class="kpi"><div class="kpi-label">New assets / year</div><div class="kpi-val" id="k-assets">–</div></div>
             <div class="kpi accent"><div class="kpi-label">New annual fee revenue</div><div class="kpi-val" id="k-rev">–</div></div>
-            <p class="fineprint">Benchmark: Morgan Stanley reported AI-assisted prospect matching doubled successful referrals to over 100,000 in 2024.</p>
+            <p class="fineprint">Illustrative calculations. Revenue excludes expenses, attrition and taxes.</p>
           </div>
         </div>
       </section>
     </main>
+    <dialog id="comparison"><div class="dialog-heading"><h2 data-i18n="compare">Compare advisors</h2><button id="compare-close" class="icon-btn" aria-label="Close comparison"><i data-lucide="x"></i></button></div><div id="comparison-content"></div></dialog>
     <footer class="foot">Hackathon prototype · demo advisors are fictional · educational only, not investment advice</footer>
     <script type="module" src="/src/main.js"></script>
   </body>
