@@ -89,19 +89,20 @@ test("every name in All advisors comes from the advisor list", async ({ page }) 
   expect(shown.map((s) => s.trim()).sort()).toEqual(ADVISORS.map((a) => a.name).sort());
 });
 
-test('match cards: "Choose this advisor" books each suggested advisor', async ({ page }) => {
-  const bookings = await fakeBackend(page);
-  await page.goto("/");
-  await page.fill("#msg", "I'm new to investing");
-  await page.click("#send");
-  await expect(page.locator(".match")).toHaveCount(3);
-  for (const advisor of ADVISORS.slice(0, 3)) {
-    if (await page.locator("#matches .show-all").count()) await page.click("#matches .show-all");  // choosing hides the others
-    await page.locator(".match", { hasText: advisor.name }).locator(".choose").click();
-    await bookFromOpenForm(page, advisor.name);
-  }
-  expect(bookings.map((b) => b.advisor_id)).toEqual(ADVISORS.slice(0, 3).map((a) => a.advisor_id));
-});
+for (const i of [0, 1, 2]) {
+  // Each match in a fresh session: once one is booked the three matches are hidden (matches-after-booking.spec.js).
+  test(`match cards: "Choose this advisor" books suggested advisor #${i + 1}`, async ({ page }) => {
+    const bookings = await fakeBackend(page);
+    const target = ADVISORS[i];
+    await page.goto("/");
+    await page.fill("#msg", "I'm new to investing");
+    await page.click("#send");
+    await expect(page.locator(".match")).toHaveCount(3);
+    await page.locator(".match", { hasText: target.name }).locator(".choose").click();
+    await bookFromOpenForm(page, target.name);
+    expect(bookings.map((b) => b.advisor_id)).toEqual([target.advisor_id]);
+  });
+}
 
 test("two bookings show as two cards; cancelling one leaves the other, also after a reload", async ({ page }) => {
   await fakeBackend(page);

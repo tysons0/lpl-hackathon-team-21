@@ -17,7 +17,7 @@ async function post(path, body = {}) {
 
 // ---------- i18n ----------
 const LANGUAGE_NAMES = { en: "English", es: "Spanish", zh: "Mandarin" };
-const state = { lang: "en", autoread: false, sessionId: null, busy: false, dictation: null, lastMatches: [], bookings: [], booking: null, chosenAdvisor: null };
+const state = { lang: "en", autoread: false, sessionId: null, busy: false, dictation: null, lastMatches: [], bookings: [], booking: null, chosenAdvisor: null, matchesAfterBooking: false };
 const t = (k) => (T[state.lang] ?? T.en)[k] ?? T.en[k];
 
 const LOCALES = { en: "en-US", es: "es-US", zh: "zh-CN" };
@@ -268,7 +268,11 @@ async function send(text, extra = {}) {
     state.sessionId = res.session_id;
     typing.remove();
     addMsg("bot", res.reply || "…");
-    if (res.matches) { state.chosenAdvisor = null; renderMatches((state.lastMatches = res.matches)); }
+    if (res.matches) {
+      state.chosenAdvisor = null;
+      state.matchesAfterBooking = state.bookings.length > 0;  // asked for new matches after booking: show them
+      renderMatches((state.lastMatches = res.matches));
+    }
     if (res.booking) saveBookingLocally(res.booking);
     if (state.autoread) speak(res.reply);
   } catch (e) {
@@ -337,6 +341,7 @@ function renderMatches(list) {
     box.appendChild(card);
   });
   applyChoice();
+  syncMatchesPanel();
   // On narrow screens the matches sit below the chat: bring all three into view together.
   const side = $(".side");
   if (side.getBoundingClientRect().top > innerHeight * 0.6) {
@@ -358,6 +363,16 @@ function chooseMatch(a) {
     applyChoice();
   }
   openBookingForm(a);
+}
+
+// Once a meeting is booked the three matches have done their job: hide them and title the panel
+// "Your meeting". They come back if every meeting is cancelled, or when the chat finds new matches.
+function syncMatchesPanel() {
+  const booked = state.bookings.length > 0 && !state.matchesAfterBooking;
+  const title = $("#matches-title");
+  $("#matches").hidden = booked;
+  title.dataset.i18n = booked ? (state.bookings.length > 1 ? "bookedTitleMany" : "bookedTitle") : "matchesTitle";
+  title.textContent = t(title.dataset.i18n);
 }
 
 function applyChoice() {
@@ -390,7 +405,7 @@ function persistBookings() {
 function saveBookingLocally(b, notice = "") {
   const had = (state.bookings || []).some((x) => x.booking_id === b.booking_id);
   state.bookings = (state.bookings || []).filter((x) => x.booking_id !== b.booking_id);
-  if (b.status !== "cancelled") state.bookings.push(b);
+  if (b.status !== "cancelled") { state.bookings.push(b); state.matchesAfterBooking = false; }
   else if (had) $("#booking-announcement").textContent = `${t("bkCancelled")}. ${t("bkCancelledNote")}`;
   state.booking = state.bookings.at(-1) || null;
   persistBookings();
@@ -581,6 +596,7 @@ function renderBookings(notice = null) {
   const box = $("#booking");
   const list = state.bookings || [];
   box.innerHTML = list.map((b) => bookingCardHtml(b, notice?.id === b.booking_id ? notice.text : "")).join("");
+  syncMatchesPanel();
   box.querySelectorAll(".booking-card").forEach((card) => {
     const b = list.find((x) => x.booking_id === card.dataset.bookingId);
     const q = (sel) => card.querySelector(sel);

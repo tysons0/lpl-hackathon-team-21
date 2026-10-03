@@ -143,14 +143,14 @@ test('"Show all 3 matches" brings the other two back', async ({ page }) => {
   expect((await userBubbles(page)).at(-1)).toContain("Mei Lin");
 });
 
-test("booking the chosen advisor keeps only that match card", async ({ page }) => {
+test("booking the chosen advisor hides the matches (see matches-after-booking.spec.js)", async ({ page }) => {
   await fakeBackend(page);
   await getMatches(page);
   await choose(page, "Jordan Ellis");
   await page.fill("#bk-name", "Ana");
   await page.click("#bk-submit");
   await expect(page.locator("#booking .booking-card", { hasText: "Jordan Ellis" })).toHaveCount(1);
-  expect(await visibleMatchNames(page)).toEqual(["Jordan Ellis"]);
+  expect(await visibleMatchNames(page)).toEqual([]);
 });
 
 test("a new set of matches shows all three again", async ({ page }) => {
