@@ -536,6 +536,7 @@ function openBookingForm(advisor, existing = null) {
       } else {
         const when = `${friendlyDate(dateEl.value)}, ${timeEl.selectedOptions[0].textContent}`;
         await send((T[state.lang] ?? T.en).bkChatMsg?.(advisor.name, when) ?? T.en.bkChatMsg(advisor.name, when), {
+          selected_advisor_id: advisor.advisor_id,
           booking: { advisor_id: advisor.advisor_id, first_name: first, date: dateEl.value, time: timeEl.value, purpose: purposeEl.value },
         });
       }

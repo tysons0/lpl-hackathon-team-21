@@ -97,15 +97,19 @@ fi
 
 out() { aws cloudformation describe-stacks --stack-name "$STACK" --query "Stacks[0].Outputs[?OutputKey=='$1'].OutputValue" --output text; }
 WEB_URL=$(out WebUrl); API_URL=$(out ApiUrl); DATA_BUCKET=$(out DataBucketName); WEB_BUCKET=$(out WebBucketName)
+ADVISORS_TABLE=$(out AdvisorsTableName)
 DIST_ID=$(out DistributionId); POOL_ID=$(out IdentityPoolId); FN=$(out FunctionName)
 LOGS=$(out AgentLogGroupName); CRM_LOGS=$(out CrmLogGroupName)
 API_URL="${API_URL%/}"
 
 say "5/8 Seeding fictional demo advisors (with Titan embeddings)"
-if [ "${RESEED:-0}" = "1" ] || ! aws s3api head-object --bucket "$DATA_BUCKET" --key advisors.json >/dev/null 2>&1; then
-  python3 seed/seed.py "$DATA_BUCKET" "$REGION"
+if [ "${RESEED:-0}" = "1" ]; then
+  python3 seed/seed.py "$DATA_BUCKET" "$REGION" "$ADVISORS_TABLE" --overwrite
+elif ! aws s3api head-object --bucket "$DATA_BUCKET" --key advisors.json >/dev/null 2>&1; then
+  python3 seed/seed.py "$DATA_BUCKET" "$REGION" "$ADVISORS_TABLE"
 else
-  echo "advisors.json already present (set RESEED=1 to regenerate)"
+  python3 seed/seed.py "$DATA_BUCKET" "$REGION" "$ADVISORS_TABLE" --sync-existing
+  echo "Existing advisor profiles synchronized to DynamoDB (set RESEED=1 to regenerate profiles)"
 fi
 
 say "6/8 Publishing the web app"

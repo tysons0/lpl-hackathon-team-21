@@ -77,6 +77,58 @@ DEFAULT_PAIRWISE = [
     [1 / 5, 1 / 3, 1 / 2, 1],
 ]
 RANDOM_INDEX = {1: 0.0, 2: 0.0, 3: 0.58, 4: 0.90, 5: 1.12, 6: 1.24, 7: 1.32, 8: 1.41}
+# Absolute levels make a correction replace earlier evidence instead of accumulating boosts.
+IMPORTANCE_LEVELS = {"flexible": 0.5, "important": 6, "top": 9, "required": 9}
+
+
+def ranking_priorities(preferences):
+    return {criterion: entry["importance"] for criterion, entry in (preferences or {}).items()
+            if criterion in CRITERIA and isinstance(entry, dict)
+            and entry.get("importance") in IMPORTANCE_LEVELS}
+
+
+def merge_ranking_preferences(current, updates, user_message):
+    """Validate model-extracted evidence against this turn; latest explicit preference wins.
+
+    Store strings only, so this profile can be written directly to DynamoDB. A normal
+    update removes the override. Quotes establish provenance, not semantic correctness;
+    interpreting their meaning remains the chat model's responsibility.
+    """
+    if updates is None:
+        return dict(current or {})
+    if not isinstance(updates, list) or len(updates) > len(CRITERIA):
+        raise ValueError("Send at most one update for each of the four ranking criteria.")
+    merged, seen = dict(current or {}), set()
+    def normalize(text):
+        return " ".join(text.casefold().split())
+
+    message = normalize(user_message or "")
+    for update in updates:
+        if not isinstance(update, dict):
+            raise ValueError("Each ranking update needs criterion, importance and evidence.")
+        criterion, level, evidence = (update.get(k) for k in ("criterion", "importance", "evidence"))
+        if not isinstance(criterion, str) or criterion not in CRITERIA or criterion in seen:
+            raise ValueError("Use each supported ranking criterion at most once.")
+        if not isinstance(level, str) or level not in (*IMPORTANCE_LEVELS, "normal"):
+            raise ValueError("Importance must be flexible, normal, important, top or required.")
+        if level == "required" and criterion not in ("language", "meeting"):
+            raise ValueError("Only language and meeting type support a required constraint.")
+        if (not isinstance(evidence, str) or not evidence.strip() or len(evidence) > 300
+                or normalize(evidence) not in message or screen_pii(evidence)):
+            raise ValueError("Evidence must quote up to 300 characters from the current user message without PII.")
+        seen.add(criterion)
+        if level == "normal":
+            merged.pop(criterion, None)
+        else:
+            merged[criterion] = {"importance": level, "evidence": evidence.strip()}
+    return merged
+
+
+def search_text(slots, fallback=""):
+    """Build semantic matching input from the latest saved facts, including corrections."""
+    parts = [f"{key}: {slots[key]}" for key in
+             ("goal", "life_stage", "worries", "decision_style", "communication_cadence") if slots.get(key)]
+    return "\n".join(parts) or fallback
 
 
 def ahp_weights(matrix, iterations=100):
@@ -106,9 +158,19 @@ def pairwise_for_priority(most_important=""):
     return [[importance[r] / importance[c] for c in CRITERIA] for r in CRITERIA]  # ratio matrix: CR == 0
 
 
-def criteria_weights(most_important=""):
+def criteria_weights(most_important="", preferences=None):
     """AHP weights; if the judgments are inconsistent (CR > 0.10) fall back to the default matrix."""
-    w, lam, ci, cr = ahp_weights(pairwise_for_priority(most_important))
+    priorities = ranking_priorities(preferences)
+    if priorities:
+        # Preserve the relative defaults for criteria the user has not discussed.
+        # Default maximum is 5; flexible is below every default, important/top above it.
+        baseline = ahp_weights(DEFAULT_PAIRWISE)[0]
+        importance = {c: 5 * weight / max(baseline) for c, weight in zip(CRITERIA, baseline)}
+        importance.update({c: IMPORTANCE_LEVELS[level] for c, level in priorities.items()})
+        matrix = [[importance[r] / importance[c] for c in CRITERIA] for r in CRITERIA]
+    else:
+        matrix = pairwise_for_priority(most_important)
+    w, lam, ci, cr = ahp_weights(matrix)
     if cr > 0.10:
         w, lam, ci, cr = ahp_weights(DEFAULT_PAIRWISE)
     return {"weights": dict(zip(CRITERIA, w)), "lambda_max": lam, "ci": ci, "cr": cr}
@@ -119,20 +181,29 @@ def normalize_meeting_type(meeting_type):
     return "in-person" if "person" in (meeting_type or "").lower() else "virtual"
 
 
-def candidate_pool(advisors, language, meeting_type):
+def candidate_pool(advisors, language, meeting_type, preferences=None):
     lang = (language or "English").strip().capitalize()
     lang = {"Chinese": "Mandarin", "中文": "Mandarin", "Español": "Spanish"}.get(lang, lang)
     mt = normalize_meeting_type(meeting_type)
-    pool = [a for a in advisors if lang in a["languages"] and mt in a["meeting_types"] and a["open_slots"] > 0]
+    priorities = ranking_priorities(preferences)
+    allowed = [a for a in advisors
+               if (priorities.get("language") != "required" or lang in a["languages"])
+               and (priorities.get("meeting") != "required" or mt in a["meeting_types"])]
+    language_flexible = priorities.get("language") == "flexible"
+    meeting_flexible = priorities.get("meeting") == "flexible"
+    pool = [a for a in allowed if (language_flexible or lang in a["languages"])
+            and (meeting_flexible or mt in a["meeting_types"]) and a["open_slots"] > 0]
     if len(pool) < 3:  # relax filters rather than return nothing
-        pool = [a for a in advisors if lang in a["languages"]] or list(advisors)
+        # Explicit requirements are never relaxed, even when that means no matches.
+        pool = [a for a in allowed if language_flexible or lang in a["languages"]] or allowed
     return pool, lang, mt
 
 
-def rank_advisors(query_embedding, advisors, language, meeting_type, most_important="", k=3, rng=random):
+def rank_advisors(query_embedding, advisors, language, meeting_type, most_important="", k=3, rng=random,
+                  preferences=None):
     """Score every candidate on the AHP criteria and return the top k with a per-criterion breakdown."""
-    pool, lang, mt = candidate_pool(advisors, language, meeting_type)
-    ahp = criteria_weights(most_important)
+    pool, lang, mt = candidate_pool(advisors, language, meeting_type, preferences)
+    ahp = criteria_weights(most_important, preferences)
     w = ahp["weights"]
     sims = [sum(x * y for x, y in zip(query_embedding, a["embedding"])) for a in pool]
     lo, hi = (min(sims), max(sims)) if sims else (0.0, 1.0)
@@ -153,7 +224,7 @@ def rank_advisors(query_embedding, advisors, language, meeting_type, most_import
 
 
 def is_known_advisor(advisor_id, matched_ids):
-    """SKILL-02: booking may only reference an advisor ID the retrieval step actually returned."""
+    """Return whether ranking or a verified full-directory selection authorized this advisor ID."""
     return bool(advisor_id) and advisor_id in set(matched_ids or [])
 
 
@@ -186,7 +257,8 @@ def fee_disclosure(advisor):
 
 
 # ---------- advisor directory (browse every advisor, not only the top 3) ----------
-DIRECTORY_FIELDS = ("advisor_id", "name", "city", "languages", "meeting_types", "focus", "bio", "open_slots", "photo_url")
+DIRECTORY_FIELDS = ("advisor_id", "name", "city", "zip", "languages", "meeting_types", "focus", "bio",
+                    "open_slots", "photo_url", "fee_model", "platform")
 
 
 def directory(advisors, language="", meeting_type="", text=""):
@@ -200,7 +272,11 @@ def directory(advisors, language="", meeting_type="", text=""):
             continue
         if mt and mt not in a["meeting_types"]:
             continue
-        haystack = " ".join([a["name"], a["city"], a.get("bio", ""), *a.get("focus", [])]).lower()
+        haystack = " ".join([
+            a.get("name", ""), a.get("city", ""), a.get("zip", ""), a.get("bio", ""),
+            a.get("fee_model", ""), a.get("platform", ""), *a.get("languages", []),
+            *a.get("meeting_types", []), *a.get("focus", []),
+        ]).lower()
         if any(w not in haystack for w in words):
             continue
         item = {k: a[k] for k in DIRECTORY_FIELDS if k in a}

@@ -110,3 +110,94 @@ def test_directory_passes_photo_url_only_when_present():
     with_photo = adv(1, [1, 0], photo_url="/advisors/adv-1.jpg")
     items = matching.directory([with_photo, adv(2, [0, 1])])
     assert items[0]["photo_url"] == "/advisors/adv-1.jpg" and "photo_url" not in items[1]
+
+
+def preference(criterion, importance, evidence):
+    return {"criterion": criterion, "importance": importance, "evidence": evidence}
+
+
+def test_conversation_priorities_accumulate_without_repeated_boosts_and_allow_corrections():
+    first = preference("availability", "top", "Meeting soon matters most")
+    profile = matching.merge_ranking_preferences({}, [first], first["evidence"])
+    original = dict(profile)
+    for _ in range(10):
+        profile = matching.merge_ranking_preferences(profile, [first], first["evidence"])
+    assert profile == original
+    second = preference("language", "important", "Spanish is important too")
+    profile = matching.merge_ranking_preferences(profile, [second], second["evidence"])
+    assert matching.ranking_priorities(profile) == {"availability": "top", "language": "important"}
+    correction = preference("availability", "flexible", "Actually, I can wait")
+    profile = matching.merge_ranking_preferences(profile, [correction], correction["evidence"])
+    assert matching.ranking_priorities(profile) == {"availability": "flexible", "language": "important"}
+    reset = preference("language", "normal", "Language has normal importance again")
+    profile = matching.merge_ranking_preferences(profile, [reset], reset["evidence"])
+    assert matching.ranking_priorities(profile) == {"availability": "flexible"}
+
+
+@pytest.mark.parametrize("criterion,level,quote,message", [
+    ("fees", "top", "Fees matter most", "Fees matter most"),
+    ("availability", "infinite", "I need someone soon", "I need someone soon"),
+    ("expertise", "required", "Only experts", "Only experts"),
+    ("language", "top", "Spanish matters most", "Hello"),
+    ("language", "top", "", "Hello"),
+    ("language", "top", "me@example.com", "me@example.com"),
+])
+def test_ranking_rejects_unknown_criteria_and_ungrounded_evidence(criterion, level, quote, message):
+    with pytest.raises(ValueError):
+        matching.merge_ranking_preferences({}, [preference(criterion, level, quote)], message)
+
+
+@pytest.mark.parametrize("message", ["El idioma es lo más importante", "语言对我最重要"])
+def test_priority_evidence_can_be_in_the_users_language(message):
+    profile = matching.merge_ranking_preferences({}, [preference("language", "top", message)], message)
+    weights = matching.criteria_weights(preferences=profile)["weights"]
+    assert max(weights, key=weights.get) == "language"
+
+
+def test_adaptive_ranking_changes_order_and_preserves_consistent_normalized_weights():
+    pool = [adv(1, [1, 0], slots=1), adv(2, [0, 1], slots=5), adv(3, [.3, .7], slots=2)]
+    original, _, _ = matching.rank_advisors([1, 0], pool, "English", "virtual", rng=random.Random(0))
+    assert original[0]["advisor"]["advisor_id"] == "adv-1"
+    profile = {"availability": {"importance": "top"}}
+    updated, ahp, _ = matching.rank_advisors(
+        [1, 0], pool, "English", "virtual", rng=random.Random(0), preferences=profile)
+    assert updated[0]["advisor"]["advisor_id"] == "adv-2"
+    assert matching.top_drivers(ahp["weights"])[0] == "availability"
+    assert sum(ahp["weights"].values()) == pytest.approx(1)
+    assert all(0 < weight < 1 for weight in ahp["weights"].values())
+    assert abs(ahp["cr"]) < 1e-6
+
+
+def test_flexible_meeting_format_expands_candidate_pool():
+    pool = [adv(i, [0, 1]) for i in (1, 2, 3)] + [adv(4, [1, 0], mts=("in-person",))]
+    strict, _, _ = matching.rank_advisors([1, 0], pool, "English", "virtual")
+    assert all(p["advisor"]["advisor_id"] != "adv-4" for p in strict)
+    flexible, _, _ = matching.rank_advisors(
+        [1, 0], pool, "English", "virtual", preferences={"meeting": {"importance": "flexible"}})
+    assert flexible[0]["advisor"]["advisor_id"] == "adv-4"
+
+
+def test_required_constraints_are_never_relaxed():
+    pool = [adv(1, [1, 0]), adv(2, [0, 1], langs=("Spanish",), mts=("in-person",))]
+    profile = {"language": {"importance": "required"}, "meeting": {"importance": "required"}}
+    picks, _, _ = matching.rank_advisors([1, 0], pool, "Spanish", "virtual", preferences=profile)
+    assert picks == []
+
+
+def test_normal_resets_original_weights_and_latest_goal_replaces_old_search_text():
+    profile = {"expertise": {"importance": "top"}}
+    reset = preference("expertise", "normal", "Reset expertise")
+    profile = matching.merge_ranking_preferences(profile, [reset], reset["evidence"])
+    assert matching.criteria_weights(preferences=profile) == matching.criteria_weights()
+    assert matching.search_text({"goal": "retire"}, "buy a home") == "goal: retire"
+
+
+@pytest.mark.parametrize("criterion", matching.CRITERIA)
+def test_flexible_lowers_weight_and_top_is_dominant_for_every_criterion(criterion):
+    baseline = matching.criteria_weights()["weights"]
+    flexible = matching.criteria_weights(preferences={criterion: {"importance": "flexible"}})["weights"]
+    top = matching.criteria_weights(preferences={criterion: {"importance": "top"}})["weights"]
+    assert flexible[criterion] < baseline[criterion] < top[criterion]
+    assert max(top, key=top.get) == criterion
+    others = [c for c in matching.CRITERIA if c != criterion]
+    assert flexible[others[0]] / flexible[others[1]] == pytest.approx(baseline[others[0]] / baseline[others[1]])
