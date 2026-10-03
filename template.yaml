@@ -70,7 +70,7 @@ Resources:
         TopicsConfig:
           - Name: Personalized investment advice
             Type: DENY
-            Definition: Recommending or requesting a specific investment action, such as which security or fund to buy, sell or hold, how to allocate assets, or when to trade. Do not block general interest in investing, requests for help getting started, or requests to be matched with an advisor unless they ask for a specific investment action.
+            Definition: Block requests for a specific buy, sell, hold, asset allocation, or trade action. Allow general investing interest, getting-started help, and advisor matching.
             Examples:
               - Should I buy Tesla stock?
               - Which fund should I put my 401k in?
